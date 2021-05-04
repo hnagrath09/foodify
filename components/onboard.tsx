@@ -7,9 +7,10 @@ import data, { Item } from "../assets/data/slides"
 
 export type OnboardProps = {
   handleDone: () => void
+  navigation: any
 }
 
-export default function Onboard({ handleDone }: OnboardProps) {
+export default function Onboard({ handleDone, navigation }: OnboardProps) {
   const slider = useRef<AppIntroSlider | null>(null)
 
   const keyExtractor = (item: Item) => item.title
@@ -36,48 +37,47 @@ export default function Onboard({ handleDone }: OnboardProps) {
 
   const renderPagination = (activeIndex: number) => {
     return (
-      <>
-        <View style={tailwind("absolute w-full bottom-20")}>
-          <View style={tailwind("flex-row items-center mx-36 justify-between")}>
-            {data.map((_, i) => (
-              <TouchableOpacity
-                key={i}
-                style={tailwind(
-                  clsx(
-                    "rounded-full",
-                    i === activeIndex
-                      ? "w-3 h-3 bg-gray-700"
-                      : "w-2 h-2 bg-gray-400",
-                  ),
-                )}
-                onPress={() => {
-                  slider.current?.goToSlide(i)
-                }}
-              />
-            ))}
-          </View>
-          <TouchableOpacity
+      <View style={tailwind("absolute w-full bottom-10")}>
+        <View style={tailwind("flex-row items-center mx-36 justify-between")}>
+          {data.map((_, i) => (
+            <TouchableOpacity
+              key={i}
+              style={tailwind(
+                clsx(
+                  "rounded-full",
+                  i === activeIndex
+                    ? "w-3 h-3 bg-gray-700"
+                    : "w-2 h-2 bg-gray-400",
+                ),
+              )}
+              onPress={() => {
+                slider.current?.goToSlide(i)
+              }}
+            />
+          ))}
+        </View>
+        <TouchableOpacity
+          style={tailwind(
+            "bg-yellow-600 justify-center items-center rounded-3xl py-4 mx-6 mt-12",
+          )}
+          onPress={() => navigation.navigate("signup")}
+        >
+          <Text
+            style={tailwind("text-center text-white font-semibold text-lg")}
+          >
+            Create an account
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={tailwind("w-full mt-8")}>
+          <Text
             style={tailwind(
-              "bg-yellow-600 justify-center items-center rounded-3xl py-4 mx-6 mt-12",
+              "text-center text-lg font-semibold text-yellow-700",
             )}
           >
-            <Text
-              style={tailwind("text-center text-white font-semibold text-lg")}
-            >
-              Create an account
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={tailwind("w-full mt-8")}>
-            <Text
-              style={tailwind(
-                "text-center text-lg font-semibold text-yellow-700",
-              )}
-            >
-              login
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </>
+            login
+          </Text>
+        </TouchableOpacity>
+      </View>
     )
   }
 
